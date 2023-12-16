@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 public class LoginService {
     @Autowired
     private final LoginRepository loginRepository;
-    public void saveLogin(Long number, String password) {
-        loginRepository.saveLogin(number, password);
-    }
+//    public void saveLogin(Long number, String password) {
+//        loginRepository.saveLogin(number, password);
+//    }
 
     public void saveUser(String addres,String email,String first_name,String sur_name,
                          String father_name,Long number) {

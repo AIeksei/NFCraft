@@ -1,7 +1,7 @@
 package com.example.shop.models.DTO;
 
 public interface ProductDto{
-    String getproductname();
+    String getproductName();
     String getproductQuant();
     String getproductPrice();
     String getrewiewstar();

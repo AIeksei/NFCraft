@@ -12,8 +12,7 @@ public class BuyProduct {
     @ManyToOne
     @JoinColumn(name = "product_order_id")
     private Order productOrder;
-    @Column
-    private Float price;
+
     @Column
     private Integer quant;
 
@@ -44,13 +43,6 @@ public class BuyProduct {
         this.productOrder = productOrder;
     }
 
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
 
     public Integer getQuant() {
         return quant;

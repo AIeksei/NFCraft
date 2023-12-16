@@ -1,20 +1,10 @@
 package com.example.shop.controllers;
-
-import com.example.shop.Utils.Utils;
-import com.example.shop.models.DTO.ProductDto;
-import com.example.shop.models.Product;
 import com.example.shop.repositories.ProductRepository;
 import com.example.shop.services.ProductService;
-import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class ProductController {

@@ -23,8 +23,4 @@ public class OrderService {
         return null;
     }
 
-    public Iterable<ProductDto> allProducts() {
-            return orderRepository.listProducts();
-        }
-
 }

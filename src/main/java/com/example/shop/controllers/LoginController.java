@@ -1,31 +1,26 @@
 package com.example.shop.controllers;
-
 import com.example.shop.models.Login;
+import com.example.shop.models.Role;
 import com.example.shop.repositories.LoginRepository;
-import com.example.shop.repositories.ProductRepository;
 import com.example.shop.services.LoginService;
-import com.example.shop.services.ProductService;
+import org.hibernate.boot.model.internal.XMLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
-
+import java.util.Map;
 @Controller
 public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    @Autowired LoginRepository loginRepository;
+    @Autowired
+    LoginRepository loginRepository;
 
     @GetMapping("/login")
     public String getLogin(){
-        System.out.println("start");
-        Optional<Login> login = loginRepository.findByNumber(78L);
-        System.out.println(login.toString());
         return "login";
     }
 
@@ -45,14 +40,37 @@ public class LoginController {
         }
     }*/
 
-    @PostMapping("/login")
-    public String postLogin(@RequestParam int number){
-        Optional<Login> login = loginRepository.findByNumber((long) number);
-        System.out.println(login.toString() + " for check ");
-        return "/login";
-    }
-
+//    @PostMapping("/registration")
+//    public String postLogin(@RequestParam int number){
+//        Optional<Login> login = loginRepository.findByNumber((long) number);
+//        System.out.println(login.toString() + " for check ");
+//        return "/catalog";
+//    }
     @PostMapping("/registration")
+    public String addLogin(@RequestParam(defaultValue = "123") String username, @RequestParam(defaultValue = "123") String password){
+        System.out.println(9);
+        Login userDb = loginRepository.findByLogin(username );
+        if (userDb != null || password.length() == 0) {
+            return "registration";
+        }
+
+        Role role = Role.USER;
+        try {
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            String pas = bCryptPasswordEncoder.encode(password);
+            loginRepository.saveLogin(pas, username,true);
+            Long id = loginRepository.findPasswordByEmail(username);
+            loginRepository.saveRole(id, role.toString());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "redirect:/";
+    }
+    @GetMapping("/registration")
+    public String registration() {
+        return "registration";
+    }
+    @PostMapping("/user")
     public ResponseEntity<String> UserAdd(@RequestParam String addres,
                                           @RequestParam String email,
                                           @RequestParam String first_name,
