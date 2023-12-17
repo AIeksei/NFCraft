@@ -59,21 +59,41 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "join user ON review.user_id = user.id\n" +
             "WHERE products.id = ?1 \n" , nativeQuery = true)
     List <ProductDto> ReviewStar(@Param("id") Long newID);
-
-
-
+    @Modifying // для внесения изменений в бд
+    @Transactional
+    @Query(value = "insert into products(info,name,price,quant,category_id) values (?1,?2,?3,?4,?5)", nativeQuery = true)
+    void saveProduct(@Param("info") String info, @Param("name") String name, @Param("price") Float price,
+                    @Param("quant") Long quant,@Param("category_id") Long category_id);
 
 //    @Transactional
 //    @Modifying
-//    @Query("DELETE FROM Review
-//    WHERE Review.product_id
-//    IN (SELECT products.id FROM products
-//    WHERE products.name = :productName)")
+//    @Query("DELETE FROM Review\n" +
+//    "WHERE Review.product_id\n" +
+//    "IN (SELECT products.id FROM products\n" +
+//    "WHERE products.name = :productName)\n")
 //    void deleteProductAndReviewsByProductName(@Param("productName")String productName);
+//
+//    @Transactional
+//    @Modifying
+//    @Query("DELETE FROM products" +
+//    "WHERE products.name = ?productName")
+//    void deleteProductByProductName(@Param("productName") String productName);
 
 //    @Transactional
 //    @Modifying
-//    @Query("DELETE FROM products
-//    WHERE products.name = :productName")
-//    void deleteProductByProductName(@Param("productName") String productName);
+//    @Query("UPDATE Product p " +
+//            "SET p.info = ?info, " +
+//            "    p.name = ?name, " +
+//            "    p.price = ?price, " +
+//            "    p.quant = ?quant, " +
+//            "    p.category.id = ?categoryId " +
+//            "WHERE p.id = ?productId")
+//    void updateProductInfo(
+//            @Param("info") String info,
+//            @Param("name") String name,
+//            @Param("price") Float price,
+//            @Param("quantity") Integer quant,
+//            @Param("categoryId") Long categoryId,
+//            @Param("productId") Long productId
+//    );
 }

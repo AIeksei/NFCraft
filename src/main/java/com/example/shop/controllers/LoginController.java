@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
-@Controller
+@RestController
 public class LoginController {
     @Autowired
     private LoginService loginService;
@@ -47,7 +47,7 @@ public class LoginController {
 //        return "/catalog";
 //    }
     @PostMapping("/registration")
-    public String addLogin(@RequestParam(defaultValue = "123") String username, @RequestParam(defaultValue = "123") String password){
+    public String addLogin(@RequestParam String username,@RequestParam String password){
         System.out.println(9);
         Login userDb = loginRepository.findByLogin(username );
         if (userDb != null || password.length() == 0) {
@@ -66,10 +66,10 @@ public class LoginController {
         }
         return "redirect:/";
     }
-    @GetMapping("/registration")
-    public String registration() {
-        return "registration";
-    }
+//    @GetMapping("/registration")
+//    public String registration() {
+//        return "registration";
+//    }
     @PostMapping("/user")
     public ResponseEntity<String> UserAdd(@RequestParam String addres,
                                           @RequestParam String email,

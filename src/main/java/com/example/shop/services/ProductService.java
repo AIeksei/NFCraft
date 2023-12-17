@@ -1,6 +1,7 @@
 package com.example.shop.services;
 import com.example.shop.models.DTO.ProductDto;
 import com.example.shop.repositories.ProductRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,4 +35,16 @@ public class ProductService {
 //    public void deleteProductAndReviews(String productName) {
 //        productRepository.deleteProductAndReviewsByProductName(productName);
 //    }
+//    @Transactional
+//    public void updateProductInfo(Long productId, String info, String name, Float price, Integer quantity, Long categoryId) {
+//        productRepository.updateProductInfo(info, name, price, quantity, categoryId, productId);
+//    }
+//    @Transactional
+//    public void deleteProductByProductName(String productName) {
+//        productRepository.deleteProductByProductID(productName);
+//    }
+    @Transactional
+    public void saveProduct(String info, String name, Float price, Long quant, Long categoryId) {
+        productRepository.saveProduct(info, name, price, quant, categoryId);
+    }
 }

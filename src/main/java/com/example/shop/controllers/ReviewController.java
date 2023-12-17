@@ -1,5 +1,6 @@
 package com.example.shop.controllers;
 import com.example.shop.repositories.ReviewRepository;
+import com.example.shop.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 public class ReviewController {
     @Autowired
     ReviewRepository rewiewRepository;
+    @Autowired
+    ReviewService reviewService;
 
     @PostMapping("/rewiew/add")
     public ResponseEntity<String> rewiewAdd( @RequestParam String text,
@@ -26,8 +29,14 @@ public class ReviewController {
         }
     }
 
-    @GetMapping("/allreview/{id}")
-    public ResponseEntity<?> allreview() {
-        return ResponseEntity.ok( rewiewRepository.ReviewAllStar());
-    }
+//    @GetMapping("/allreview/{id}")
+//    public ResponseEntity<?> allreview() {
+//        return ResponseEntity.ok( rewiewRepository.ReviewAllStar());
+//    }
+
+//    @DeleteMapping("/{reviewId}")
+//    public ResponseEntity<String> deleteReview(@PathVariable Long reviewId) {
+//        reviewService.deleteReviewById(reviewId);
+//        return new ResponseEntity<>("Review deleted successfully", HttpStatus.OK);
+//    }
 }

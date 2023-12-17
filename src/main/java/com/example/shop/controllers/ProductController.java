@@ -2,13 +2,13 @@ package com.example.shop.controllers;
 import com.example.shop.repositories.ProductRepository;
 import com.example.shop.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ProductController {
-
     @Autowired
     private ProductRepository productRepository;
     @Autowired
@@ -32,15 +32,39 @@ public class ProductController {
     public ResponseEntity<?> greview(@PathVariable Long id) {
         return ResponseEntity.ok( productService.ReviewStar(id));
     }
-//    @PostMapping("/organization/add")
-//    public String orgAdd(@RequestParam String name,
-//                         @RequestParam String mail,
-//                         @RequestParam Long phone,
-//                         @RequestParam String urlForImg
-//    ) {
-//        organizationRepository.saveCategory(name,adress,mail,phone,urlForImg);
-//        return "redirect:/organizations";
+//    @PutMapping("/{productId}")
+//    public ResponseEntity<String> updateProduct(
+//            @PathVariable Long productId,
+//            @RequestParam String info,
+//            @RequestParam String name,
+//            @RequestParam Float price,
+//            @RequestParam Integer quantity,
+//            @RequestParam Long categoryId) {
+//
+//        productService.updateProductInfo(productId, info, name, price, quantity, categoryId);
+//        return new ResponseEntity<>("Product updated successfully", HttpStatus.OK);
 //    }
+
+//    @DeleteMapping("/{productName}")
+//    public ResponseEntity<String> deleteProduct(
+//            @PathVariable String productName) {
+//
+//        productService.deleteProductByProductName(productName);
+//        return new ResponseEntity<>("Product deleted successfully", HttpStatus.OK);
+//    }
+
+//    @PostMapping("/create")
+//    public ResponseEntity<String> createProduct(
+//            @RequestParam String info,
+//            @RequestParam String name,
+//            @RequestParam Float price,
+//            @RequestParam Long quant,
+//            @RequestParam Long categoryId) {
+//
+//        productService.saveProduct(info, name, price, quant, categoryId);
+//        return new ResponseEntity<>("Product created successfully", HttpStatus.CREATED);
+//    }
+
 
 }
 

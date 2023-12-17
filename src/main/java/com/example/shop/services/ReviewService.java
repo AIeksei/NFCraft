@@ -1,6 +1,7 @@
 package com.example.shop.services;
 import com.example.shop.models.DTO.ProductDto;
 import com.example.shop.repositories.ReviewRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,12 @@ public class ReviewService {
         return reviewRepository.ReviewAllStar();
     }
 
-    public void deleteProductAndReviews(Long id) {
-        reviewRepository.deleteReviewByID(id);
-    }
+//    public void deleteProductAndReviews(Long id) {
+//        reviewRepository.deleteReviewByID(id);
+//    }
+
+//    @Transactional
+//    public void deleteReviewById(Long id) {
+//        reviewRepository.deleteReviewByID(id);
+//    }
 }
