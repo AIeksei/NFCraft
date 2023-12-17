@@ -1,6 +1,7 @@
 package com.example.shop.repositories;
 import com.example.shop.models.Login;
 import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -8,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface LoginRepository extends CrudRepository<Login, Long>  {
+public interface LoginRepository extends JpaRepository<Login, Long> {
 
 //    @Modifying
 //    @Transactional
@@ -24,6 +25,11 @@ public interface LoginRepository extends CrudRepository<Login, Long>  {
     @Query(value ="SELECT id FROM Login WHERE username = ?1", nativeQuery = true)
     Long findPasswordByEmail(@Param("email") String email);
 
+    @Query(value = """
+            select * from login where email = :email
+            """, nativeQuery = true)
+    Optional<Login> findByEmail(String email);
+
     @Modifying // для внесения изменений в бд
     @Transactional
     @Query(value = "insert into user(addres,email,first_name,sur_name,father_name,phone) " +
@@ -31,11 +37,16 @@ public interface LoginRepository extends CrudRepository<Login, Long>  {
     void saveUser(@Param("addres") String addres, @Param("email") String email,
                   @Param("first_name") String first_name, @Param("sur_name")
                   String sur_name, @Param("phone") Long phone);
-    @Modifying // для внесения изменений в бд
+
+    @Modifying
     @Transactional
-    @Query(value = "insert into login(active,username ,password) " +
-            "values (?3,?2,?1)", nativeQuery = true)
-    void saveLogin(@Param("password") String password, @Param("username") String username,@Param("active") Boolean active);
+    @Query(value = """
+            insert into login (email, password, active, role)
+            values (:#{#login.email}, :#{#login.password}, :#{#login.active},
+              :#{#login.role.name()})
+            """, nativeQuery = true)
+    void saveLogin(Login login);
+
     @Modifying // для внесения изменений в бд
     @Transactional
     @Query(value = "insert into user_role(user_id,roles) " +
