@@ -1,28 +1,28 @@
 package com.example.shop.controllers;
+import com.example.shop.models.AuthResponse;
+import com.example.shop.models.DTO.LoginRequest;
+import com.example.shop.models.DTO.RegisterDTO;
 import com.example.shop.models.Login;
 import com.example.shop.models.Role;
 import com.example.shop.repositories.LoginRepository;
 import com.example.shop.services.LoginService;
-import org.hibernate.boot.model.internal.XMLContext;
+import com.example.shop.services.auth.AuthService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import java.util.Map;
+
 @RestController
 public class LoginController {
     @Autowired
     private LoginService loginService;
-
     @Autowired
-    LoginRepository loginRepository;
-
-    @GetMapping("/login")
-    public String getLogin(){
-        return "login";
-    }
+    private AuthService authService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /*@PostMapping("/login")
     public ResponseEntity<String> LoginAdd(@RequestParam Long number,@RequestParam String password)//@RequestParam Long number,
@@ -40,6 +40,11 @@ public class LoginController {
         }
     }*/
 
+    @PostMapping("/login")
+    public AuthResponse login(@RequestBody LoginRequest authRequest) {
+        return authService.login(authRequest);
+    }
+
 //    @PostMapping("/registration")
 //    public String postLogin(@RequestParam int number){
 //        Optional<Login> login = loginRepository.findByNumber((long) number);
@@ -47,29 +52,11 @@ public class LoginController {
 //        return "/catalog";
 //    }
     @PostMapping("/registration")
-    public String addLogin(@RequestParam String username,@RequestParam String password){
-        System.out.println(9);
-        Login userDb = loginRepository.findByLogin(username );
-        if (userDb != null || password.length() == 0) {
-            return "registration";
-        }
-
-        Role role = Role.USER;
-        try {
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-            String pas = bCryptPasswordEncoder.encode(password);
-            loginRepository.saveLogin(pas, username,true);
-            Long id = loginRepository.findPasswordByEmail(username);
-            loginRepository.saveRole(id, role.toString());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return "redirect:/";
+    public AuthResponse register(@RequestBody RegisterDTO registerDTO) {
+        Login savedLogin = loginService.saveLogin(Login.from(registerDTO, passwordEncoder));
+        return authService.generateToken(savedLogin);
     }
-//    @GetMapping("/registration")
-//    public String registration() {
-//        return "registration";
-//    }
+
     @PostMapping("/user")
     public ResponseEntity<String> UserAdd(@RequestParam String addres,
                                           @RequestParam String email,

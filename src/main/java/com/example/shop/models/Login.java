@@ -1,23 +1,37 @@
 package com.example.shop.models;
 
+import com.example.shop.models.DTO.RegisterDTO;
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.util.Set;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor
 @Entity
 @Table(name = "login")
 public class Login {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String username;
+    private String email;
     private String password;
     private boolean active;
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    private Role role;
 
-    public Login() {
+    public static Login from(RegisterDTO registerDTO, PasswordEncoder passwordEncoder) {
+        return Login.builder()
+                .email(registerDTO.getEmail())
+                .password(passwordEncoder.encode(registerDTO.getPassword()))
+                .active(true)
+                .role(Role.USER)
+                .build();
     }
 
     public boolean isActive() {
@@ -36,14 +50,6 @@ public class Login {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -52,11 +58,4 @@ public class Login {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 }
