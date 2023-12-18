@@ -1,11 +1,11 @@
 package com.example.shop.models;
-
-
+import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@SuperBuilder
 @Table(name = "Review")
 public class Review {
 
@@ -15,7 +15,7 @@ public class Review {
     @Column(length = 1000)
     private String text;
     @Column
-    private Float star;
+    private Integer star;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -47,11 +47,11 @@ public class Review {
         this.text = text;
     }
 
-    public Float getStar() {
+    public Integer getStar() {
         return star;
     }
 
-    public void setStar(Float star) {
+    public void setStar(Integer star) {
         this.star = star;
     }
 

@@ -1,5 +1,4 @@
 package com.example.shop.models;
-
 import com.example.shop.models.DTO.RegisterDTO;
 import jakarta.persistence.*;
 import lombok.Builder;

@@ -1,4 +1,6 @@
 package com.example.shop.controllers;
+import com.example.shop.models.DTO.PostProductDTO;
+import com.example.shop.models.DTO.PostReviewDTO;
 import com.example.shop.repositories.ProductRepository;
 import com.example.shop.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
+@CrossOrigin
 public class ProductController {
     @Autowired
     private ProductRepository productRepository;
@@ -31,6 +36,17 @@ public class ProductController {
     @GetMapping("/review/{id}")
     public ResponseEntity<?> greview(@PathVariable Long id) {
         return ResponseEntity.ok( productService.ReviewStar(id));
+    }
+
+    @PostMapping("/product/add")
+    public ResponseEntity<String> reviewAdd( @RequestBody PostProductDTO postProductDTO )
+    {
+        try {
+            productRepository.saveProduct(postProductDTO.getInfo(),postProductDTO.getName(),postProductDTO.getPrice(),postProductDTO.getQuant(),postProductDTO.getCategory_id());
+            return new ResponseEntity<>("Сохранено", HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
 //    @PutMapping("/{productId}")
 //    public ResponseEntity<String> updateProduct(

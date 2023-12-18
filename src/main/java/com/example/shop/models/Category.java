@@ -12,7 +12,7 @@ public class Category {
     @Column(name = "name", unique = true)
     private String name;
 
-    public Category(String name) {
+    public Category() {
     }
 
     public Integer getId() {

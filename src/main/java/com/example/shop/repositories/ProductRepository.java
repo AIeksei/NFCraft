@@ -59,6 +59,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "join user ON review.user_id = user.id\n" +
             "WHERE products.id = ?1 \n" , nativeQuery = true)
     List <ProductDto> ReviewStar(@Param("id") Long newID);
+    @Query(value = "SELECT * from products WHERE id=?1", nativeQuery = true)
+    Product findByProductId(@Param("id") Long id);
+
     @Modifying // для внесения изменений в бд
     @Transactional
     @Query(value = "insert into products(info,name,price,quant,category_id) values (?1,?2,?3,?4,?5)", nativeQuery = true)

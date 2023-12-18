@@ -1,5 +1,7 @@
 package com.example.shop.services;
 import com.example.shop.models.DTO.ProductDto;
+import com.example.shop.models.Login;
+import com.example.shop.models.Review;
 import com.example.shop.repositories.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -15,13 +18,13 @@ import java.util.List;
 public class ReviewService {
     @Autowired
     private final ReviewRepository reviewRepository;
-    public void saveRewiews(String text, Float star, Long product_id,
-                            Long user_id) {
-        reviewRepository.saveReview(text, star, product_id, user_id);
+    public void saveRewiews(Review review) {
+        reviewRepository.saveReview(review);
     }
     public List<ProductDto> ReviewAllStar() {
         return reviewRepository.ReviewAllStar();
     }
+
 
 //    public void deleteProductAndReviews(Long id) {
 //        reviewRepository.deleteReviewByID(id);
