@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProductController {
     @Autowired
     private ProductRepository productRepository;
@@ -41,6 +41,7 @@ public class ProductController {
     @PostMapping("/product/add")
     public ResponseEntity<String> reviewAdd( @RequestBody PostProductDTO postProductDTO )
     {
+        System.out.println(postProductDTO.getInfo());
         try {
             productRepository.saveProduct(postProductDTO.getInfo(),postProductDTO.getName(),postProductDTO.getPrice(),postProductDTO.getQuant(),postProductDTO.getCategory_id());
             return new ResponseEntity<>("Сохранено", HttpStatus.OK);
@@ -61,14 +62,12 @@ public class ProductController {
 //        return new ResponseEntity<>("Product updated successfully", HttpStatus.OK);
 //    }
 
-//    @DeleteMapping("/{productName}")
-//    public ResponseEntity<String> deleteProduct(
-//            @PathVariable String productName) {
-//
-//        productService.deleteProductByProductName(productName);
-//        return new ResponseEntity<>("Product deleted successfully", HttpStatus.OK);
-//    }
-
+  // @DeleteMapping("products/delete/{productName}")
+  //  public ResponseEntity<String> deleteProduct(
+   //         @PathVariable Long id) {
+    //   productService.deleteProductById(id);
+     //  return new ResponseEntity<>("Product deleted successfully", HttpStatus.OK);
+ //   }
 //    @PostMapping("/create")
 //    public ResponseEntity<String> createProduct(
 //            @RequestParam String info,

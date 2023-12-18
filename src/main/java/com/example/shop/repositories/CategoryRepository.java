@@ -1,10 +1,15 @@
 package com.example.shop.repositories;
 import com.example.shop.models.Category;
+import com.example.shop.models.DTO.CategoryDTO;
+import com.example.shop.models.DTO.ProductDto;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
+
 public interface CategoryRepository extends CrudRepository<Category, Integer> {
     @Modifying // для внесения изменений в бд
     @Transactional
@@ -22,6 +27,12 @@ public interface CategoryRepository extends CrudRepository<Category, Integer> {
             "DELETE FROM Category WHERE id = ?1; " +
             "COMMIT;", nativeQuery = true)
     void updateAndDeleteCategory(@Param("category_id") Long category_id);
+    @Query(value = "SELECT " +
+            "category.name as categoryName, \n" +
+            "category.id as categoryId \n" +
+            "FROM category\n",
+            nativeQuery = true)
+    List<ProductDto> listCategory();
 
 //    @Transactional
 //    @Modifying

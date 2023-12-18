@@ -30,8 +30,8 @@ public class ReviewService {
 //        reviewRepository.deleteReviewByID(id);
 //    }
 
-//    @Transactional
-//    public void deleteReviewById(Long id) {
-//        reviewRepository.deleteReviewByID(id);
-//    }
+    @Transactional
+    public void deleteReviewById(Long id) {
+        reviewRepository.deleteReviewById(id);
+    }
 }

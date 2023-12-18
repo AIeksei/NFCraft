@@ -11,7 +11,7 @@ public class ProductImage {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-    @Column
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String url;
     @Column
     private Integer count;

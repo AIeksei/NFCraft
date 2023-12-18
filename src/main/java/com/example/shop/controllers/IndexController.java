@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class IndexController implements ErrorController {
 
     @RequestMapping("/error")

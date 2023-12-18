@@ -33,19 +33,16 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             "review.star as rewiewstar,\n" +
             "review.date AS date,\n" +
             "review.text AS text,\n" +
-            "review_image.url AS reviewurl,\n" +
             "user.first_name AS username,\n" +
             "user.sur_name AS usersur\n" +
             "FROM review\n" +
-            "join review_image ON review_image.id = review.id\n" +
-            "join user ON review.user_id = user.id", nativeQuery = true)
+            "left join user ON review.user_id = user.id", nativeQuery = true)
     List<ProductDto> ReviewAllStar();
 
 
 
-//    @Transactional
-//    @Modifying
-//    @Query("DELETE FROM review "+
-//           "WHERE id = :1?")
-//    void deleteReviewByID(@Param("id") Long id);
+
+    @Modifying
+    @Query("DELETE FROM Review WHERE id = ?1")
+    void deleteReviewById(@Param("id") Long id);
 }

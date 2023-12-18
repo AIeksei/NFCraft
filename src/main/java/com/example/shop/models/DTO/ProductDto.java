@@ -17,6 +17,8 @@ public interface ProductDto{
     String getusersur();
     String getusername();
     String getreviewurl();
+    String getcategoryId();
+    String getproductId();
 }
 
 

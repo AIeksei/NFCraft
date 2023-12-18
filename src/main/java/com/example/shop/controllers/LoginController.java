@@ -1,6 +1,7 @@
 package com.example.shop.controllers;
 import com.example.shop.models.AuthResponse;
 import com.example.shop.models.DTO.LoginRequest;
+import com.example.shop.models.DTO.PostUserDTO;
 import com.example.shop.models.DTO.RegisterDTO;
 import com.example.shop.models.Login;
 import com.example.shop.models.Role;
@@ -16,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class LoginController {
     @Autowired
     private LoginService loginService;
@@ -59,16 +60,10 @@ public class LoginController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity<String> UserAdd(@RequestParam String addres,
-                                          @RequestParam String email,
-                                          @RequestParam String first_name,
-                                          @RequestParam String sur_name,
-                                          @RequestParam String father_name,
-                                          @RequestParam Long number)
+    public ResponseEntity<String> UserAdd(@RequestBody PostUserDTO postUserDTO)
     {
         try {
-            System.out.println(6);
-            loginService.saveUser(addres,email,first_name,sur_name,father_name,number);
+            loginService.saveUser(postUserDTO.getAddres(),postUserDTO.getFather_name(),postUserDTO.getFirst_name(),postUserDTO.getPhone(),postUserDTO.getSur_name(),postUserDTO.getLogin_id());
             return new ResponseEntity<>("Сохранено", HttpStatus.OK);
         }catch (Exception e){
             System.out.println(7);

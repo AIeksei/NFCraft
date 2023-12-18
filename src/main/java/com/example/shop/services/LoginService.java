@@ -33,9 +33,9 @@ public class LoginService {
         return findByEmail(login.getEmail());
     }
 
-    public void saveUser(String addres,String email,String first_name,String sur_name,
-                         String father_name,Long number) {
-        loginRepository.saveUser(email, first_name,sur_name,father_name,number);
+    public void saveUser(String addres,String father_name,String first_name,String phone,
+                         String sur_name,Long login_id) {
+        loginRepository.saveUser(addres,father_name,first_name,phone,sur_name,login_id);
     }
 
     public Login getCurrentLogin() {

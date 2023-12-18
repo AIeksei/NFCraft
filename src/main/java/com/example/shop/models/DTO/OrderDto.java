@@ -1,6 +1,8 @@
 package com.example.shop.models.DTO;
 
 public interface OrderDto {
-    String getorderdate();
+    String getDate();
+    String getPrice();
+    String getId();
 
 }

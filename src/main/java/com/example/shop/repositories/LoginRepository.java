@@ -19,8 +19,8 @@ public interface LoginRepository extends JpaRepository<Login, Long> {
 //    @Query(value = "SELECT * FROM Login where (number) = ?1",nativeQuery = true)
 //    Optional<Login> findByNumber(@Param("number") Long number);
 
-    @Query(value ="SELECT * FROM Login WHERE username  = ?1", nativeQuery = true)
-    Login findByLogin(@Param("email") String email);
+    @Query(value ="SELECT user.id FROM user WHERE login_id  = ?1", nativeQuery = true)
+    Long findByLogin(@Param("login_id") Long login_id);
 
     @Query(value ="SELECT id FROM Login WHERE username = ?1", nativeQuery = true)
     Long findPasswordByEmail(@Param("email") String email);
@@ -32,11 +32,11 @@ public interface LoginRepository extends JpaRepository<Login, Long> {
 
     @Modifying // для внесения изменений в бд
     @Transactional
-    @Query(value = "insert into user(addres,email,first_name,sur_name,father_name,phone) " +
+    @Query(value = "insert into user(addres,father_name,first_name,phone, sur_name,login_id) " +
                    "values (?1,?2,?3,?4,?5,?6)", nativeQuery = true)
-    void saveUser(@Param("addres") String addres, @Param("email") String email,
-                  @Param("first_name") String first_name, @Param("sur_name")
-                  String sur_name, @Param("phone") Long phone);
+    void saveUser(@Param("addres") String addres, @Param("father_name") String father_name,
+                  @Param("first_name") String first_name, @Param("phone")
+                  String phone, @Param("sur_name") String sur_name, @Param("login_id") Long login_id);
 
     @Modifying
     @Transactional

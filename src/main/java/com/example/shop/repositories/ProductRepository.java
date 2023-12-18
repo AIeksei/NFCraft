@@ -18,6 +18,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "quant as productquant,\n" +
             "info as producinfo,\n" +
             "category.name as categoryname,\n" +
+            "products.id as productId, \n" +
             "ROUND(AVG(Review.star),2)  as avgRewiewStar, \n" +
             "MAX(CASE WHEN product_image.count = 1 THEN product_image.url END) AS product_imageurl\n" +
             "FROM products\n" +
@@ -33,10 +34,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "price as productprice,\n" +
             "quant as productquant,\n" +
             "info as producinfo,\n" +
+            "products.id as productId,\n" +
             "product_image.url as product_imageurl,\n" +
             "product_image.count as product_imagecount\n" +
             "FROM products\n" +
-            "join product_image on product_image.product_id = products.id\n" +
+            "left join product_image on product_image.product_id = products.id\n" +
             "WHERE products.id = ?1 \n" , nativeQuery = true)
     List <ProductDto> cardProduct(@Param("id") Long newID);
     @Query(value = "SELECT \n" +
@@ -59,6 +61,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "join user ON review.user_id = user.id\n" +
             "WHERE products.id = ?1 \n" , nativeQuery = true)
     List <ProductDto> ReviewStar(@Param("id") Long newID);
+
     @Query(value = "SELECT * from products WHERE id=?1", nativeQuery = true)
     Product findByProductId(@Param("id") Long id);
 
@@ -76,11 +79,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 //    "WHERE products.name = :productName)\n")
 //    void deleteProductAndReviewsByProductName(@Param("productName")String productName);
 //
-//    @Transactional
-//    @Modifying
-//    @Query("DELETE FROM products" +
-//    "WHERE products.name = ?productName")
-//    void deleteProductByProductName(@Param("productName") String productName);
+
+  //  @Modifying
+  //  @Query("DELETE FROM Review WHERE id = ?1")
+ //   void deleteProductById(@Param("id") Long id);
 
 //    @Transactional
 //    @Modifying

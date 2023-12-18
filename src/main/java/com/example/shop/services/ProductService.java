@@ -39,10 +39,10 @@ public class ProductService {
 //    public void updateProductInfo(Long productId, String info, String name, Float price, Integer quantity, Long categoryId) {
 //        productRepository.updateProductInfo(info, name, price, quantity, categoryId, productId);
 //    }
-//    @Transactional
-//    public void deleteProductByProductName(String productName) {
-//        productRepository.deleteProductByProductID(productName);
-//    }
+ //  @Transactional
+  //  public void deleteProductById(Long id) {
+  //    productRepository.deleteProductById(id);
+   // }
     @Transactional
     public void saveProduct(String info, String name, Float price, Long quant, Long categoryId) {
         productRepository.saveProduct(info, name, price, quant, categoryId);

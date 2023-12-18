@@ -29,7 +29,7 @@ public class AuthService {
 
     public AuthResponse generateToken(Login login) {
         final var accessToken = jwtService.generateAccessToken(login);
-        return new AuthResponse(login.getId(), accessToken);
+        return new AuthResponse(login.getId(), accessToken, login.getRole());
     }
 
 }

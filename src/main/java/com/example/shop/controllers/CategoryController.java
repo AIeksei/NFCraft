@@ -2,6 +2,8 @@ package com.example.shop.controllers;
 
 import com.example.shop.models.DTO.PostProductDTO;
 import com.example.shop.models.DTO.PostReviewDTO;
+import com.example.shop.services.CategoryService;
+import com.example.shop.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -13,19 +15,22 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
-@Controller
-@CrossOrigin
+@RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class CategoryController {
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private CategoryService categoryService;
 
-    @GetMapping("/")
-    public  String category(Model model){
-//        Iterable < Category> categories = categoryRepository.findAll();
-//        model.addAttribute("categories", categories);
-        return "category";
+    @GetMapping("/category")
+    public ResponseEntity<?> category(Model model ){
+        System.out.println("as");
+        System.out.println(categoryService.allCategory());
+        System.out.println("ss");
+        return ResponseEntity.ok( categoryService.allCategory());
+
     }
-
     @PostMapping("/category/add")
     public ResponseEntity<String> reviewAdd( @RequestBody PostProductDTO postProductDTO )
     {
