@@ -52,13 +52,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "review.star as rewiewstar,\n" +
             "review.date AS date,\n" +
             "review.text AS text,\n" +
-            "review_image.url AS reviewurl,\n" +
             "user.first_name AS username,\n" +
             "user.sur_name AS usersur\n" +
             "FROM review\n" +
-            "join products on review.product_id = products.id\n" +
-            "join review_image ON review_image.id = review.id\n" +
-            "join user ON review.user_id = user.id\n" +
+            "left join products on review.product_id = products.id\n" +
+            "left join user ON review.user_id = user.id\n" +
             "WHERE products.id = ?1 \n" , nativeQuery = true)
     List <ProductDto> ReviewStar(@Param("id") Long newID);
 
