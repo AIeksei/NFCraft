@@ -23,6 +23,12 @@ public interface ProductDto{
     String getuserid();
     String getcount();
     String geturl();
+    String getorderDate();
+    String getorderPrice();
+    String getfirst_name();
+    String getlast_name();
+    String getphone();
+    String getuserAddres();
 }
 
 

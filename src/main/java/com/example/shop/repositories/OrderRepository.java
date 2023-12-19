@@ -45,32 +45,14 @@ public interface OrderRepository extends CrudRepository<Order, Long>{
         void saveBuyProduct(@Param("quant") Integer quant,
                         @Param("product_id") Long product_id, @Param("product_order_id") Long product_order_id);
 
-//        START TRANSACTION;
-//-- Блокировка строк для чтения и обновления
-//        SELECT * FROM products WHERE id = 1 AND quant >= 1 FOR UPDATE;
-//-- Если товар есть, создаем заказ
-//        INSERT INTO orders (date, price, user_id)
-//        VALUES (
-//                CASE
-//                        WHEN (SELECT COUNT(*) FROM products WHERE id = 1 AND quant >= 1) > 0 THEN NOW()
-//        ELSE '1000-01-01 00:00:00'
-//        END,
-//                12,
-//                1
-//                );
-//
-//        SET @product_order_id = LAST_INSERT_ID(); -- Получаем ID последней вставленной записи в orders
-//
-//-- Создаем покупку товара в этом заказе
-//        INSERT INTO buy_product (quant, product_id, product_order_id)
-//        SELECT 1, 1, @product_order_id
-//        WHERE (SELECT COUNT(*) FROM products WHERE id = 1 AND quant >= 1) > 0;
-//-- Уменьшаем количество товара в таблице products
-//        UPDATE products
-//        SET quant = quant - 1
-//        WHERE id = 1 AND quant >= 1;
-//
-//        COMMIT;
-
-
+        @Query(value = " SELECT "+
+                " o.date as orderDate, "+
+                " o.price as orderPrice, "+
+                " u.first_name as first_name, "+
+                " u.last_name as last_name, "+
+                " u.phone as phone, "+
+                " u.addres as userAddres "+
+                "        FROM orders o\n" +
+                "        LEFT JOIN user u ON o.user_id = u.id\n" , nativeQuery = true)
+        List<ProductDto> allOrder();
 }
