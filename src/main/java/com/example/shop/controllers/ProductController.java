@@ -4,6 +4,9 @@ import com.example.shop.models.DTO.ProductDto;
 import com.example.shop.models.DTO.ProductImageDTO;
 import com.example.shop.repositories.ProductRepository;
 import com.example.shop.services.ProductService;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +15,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class ProductController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
+
     @Autowired
     private ProductRepository productRepository;
     @Autowired
@@ -46,12 +53,13 @@ public class ProductController {
 
     @PostMapping("/product/add")
     public ResponseEntity<String> reviewAdd(@RequestBody PostProductDTO postProductDTO) {
-        System.out.println(postProductDTO.getInfo());
+        logger.info("Добавление нового продукта: {}", postProductDTO.getName());
         try {
             productRepository.saveProduct(postProductDTO.getInfo(), postProductDTO.getName(), postProductDTO.getPrice(),
                     postProductDTO.getQuant(), postProductDTO.getCategory_id(), false);
             return new ResponseEntity<>("Сохранено", HttpStatus.OK);
         } catch (Exception e) {
+            logger.error("Ошибка при добавлении продукта", e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
