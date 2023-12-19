@@ -4,6 +4,8 @@ import com.example.shop.models.DTO.ProductDto;
 import com.example.shop.repositories.LoginRepository;
 import com.example.shop.repositories.OrderRepository;
 import com.example.shop.services.OrderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.List;
 @Controller
 @CrossOrigin(origins = "http://localhost:3000")
 public class OrderController {
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
@@ -34,10 +37,11 @@ public class OrderController {
     public ResponseEntity<String> UserAdd(@RequestBody PostOrderDTO postOrderDTO)
     {
         try {
+            logger.info("Заказ создан пользователю {}",postOrderDTO.getUser_id());
             orderService.saveOrder(postOrderDTO.getCartRequest(),postOrderDTO.getPrice(), loginRepository.findByLogin(postOrderDTO.getUser_id()));
             return new ResponseEntity<>("Сохранено", HttpStatus.OK);
         }catch (Exception e){
-            System.out.println(7);
+            logger.error("Ошибка при создании заказа", e);
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }

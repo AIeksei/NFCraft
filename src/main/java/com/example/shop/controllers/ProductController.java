@@ -53,8 +53,9 @@ public class ProductController {
 
     @PostMapping("/product/add")
     public ResponseEntity<String> reviewAdd(@RequestBody PostProductDTO postProductDTO) {
-        logger.info("Добавление нового продукта: {}", postProductDTO.getName());
+
         try {
+            logger.info("Добавление продукта: {}", postProductDTO.getName());
             productRepository.saveProduct(postProductDTO.getInfo(), postProductDTO.getName(), postProductDTO.getPrice(),
                     postProductDTO.getQuant(), postProductDTO.getCategory_id(), false);
             return new ResponseEntity<>("Сохранено", HttpStatus.OK);
@@ -66,13 +67,14 @@ public class ProductController {
 
     @PatchMapping("/products/delete/{productId}")
     public String markProductAsDeleted(@PathVariable Long productId) {
+        logger.info("Удаление продукта: {}", productId);
         productService.markProductAsDeleted(productId);
         return "Product with ID " + productId + " has been marked as deleted.";
     }
 
     @PatchMapping("/products/patch/{productId}")
     public ResponseEntity<String> updateProduct(@PathVariable Long productId, @RequestBody PostProductDTO postProductDTO) {
-
+        logger.info("Данные продукта: {}", postProductDTO.getName()," Изменены");
         productService.updateProductInfo(productId, postProductDTO.getInfo(), postProductDTO.getName(),
                 postProductDTO.getPrice(), postProductDTO.getQuant(), postProductDTO.getCategory_id());
         return new ResponseEntity<>("Product updated successfully", HttpStatus.OK);
@@ -81,6 +83,7 @@ public class ProductController {
     @PostMapping("/image/add")
     public ResponseEntity<String> saveProductImage(@RequestBody ProductImageDTO imageDTO) {
         try {
+            logger.info("Фото добавлео");
             productRepository.saveImage(imageDTO.getCount(), imageDTO.getUrl(), imageDTO.getProduct_id());
             return new ResponseEntity<>("Product image saved successfully", HttpStatus.CREATED);
         } catch (Exception e) {

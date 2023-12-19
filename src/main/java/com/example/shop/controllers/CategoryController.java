@@ -5,6 +5,8 @@ import com.example.shop.models.DTO.PostReviewDTO;
 import com.example.shop.models.DTO.ProductDto;
 import com.example.shop.services.CategoryService;
 import com.example.shop.services.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -20,6 +22,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class CategoryController {
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
@@ -35,6 +38,7 @@ public class CategoryController {
     public ResponseEntity<String> saveCategory( @RequestBody PostProductDTO postProductDTO )
     {
         try {
+            logger.info("Категория создана {}",postProductDTO.getCategory_name());
             categoryRepository.saveCategory(postProductDTO.getCategory_name());
             return new ResponseEntity<>("Сохранено", HttpStatus.OK);
         }catch (Exception e){

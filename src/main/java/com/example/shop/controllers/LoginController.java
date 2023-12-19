@@ -38,10 +38,7 @@ public class LoginController {
 
     @GetMapping("/user/login/{login_id}")
     public ResponseEntity<Long> findByLogin(@PathVariable("login_id") Long login_id) {
-        System.out.println(login_id);
         Long userId = loginRepository.findByLogin(login_id);
-        System.out.println(login_id);
-        System.out.println(userId);
         if (userId != null) {
             return ResponseEntity.ok(userId);
         } else {
