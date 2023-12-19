@@ -17,4 +17,6 @@ import java.util.List;
 public class PostOrderDTO {
     private List<PostCartDTO> cartRequest;
     private  Long user_id;
+    private Float price;
+
 }

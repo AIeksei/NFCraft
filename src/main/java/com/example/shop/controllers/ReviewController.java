@@ -1,5 +1,6 @@
 package com.example.shop.controllers;
 import com.example.shop.models.DTO.PostReviewDTO;
+import com.example.shop.models.DTO.ProductDto;
 import com.example.shop.repositories.LoginRepository;
 import com.example.shop.repositories.ProductRepository;
 import com.example.shop.repositories.ReviewRepository;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -40,11 +42,22 @@ public class ReviewController {
    public ResponseEntity<?> allreview() {
         return ResponseEntity.ok( reviewRepository.ReviewAllStar());
     }
-//    public AuthResponse register(@RequestBody RegisterDTO registerDTO) {
-//        Login savedLogin = loginService.saveLogin(Login.from(registerDTO, passwordEncoder));
-//        return authService.generateToken(savedLogin);
-//    }
-//
+
+    @GetMapping("/allreview/{star}")
+    public List<ProductDto> getReviewsByStar(@PathVariable Integer star) {
+        return reviewRepository.findReviewsByStar(star);
+    }
+
+    @GetMapping("/allreview/ASC")
+    public ResponseEntity<List<ProductDto>> getReviewsASC() {
+        List<ProductDto> reviews = reviewRepository.getReviewsASC();
+        return ResponseEntity.ok(reviews);
+    }
+    @GetMapping("/allreview/DESC")
+    public ResponseEntity<List<ProductDto>> getReviewsDESC() {
+        List<ProductDto> reviews = reviewRepository.getReviewsDESC();
+        return ResponseEntity.ok(reviews);
+    }
 
    @DeleteMapping("review/delete/{reviewId}")
     public ResponseEntity<String> deleteReview(@PathVariable Long reviewId) {

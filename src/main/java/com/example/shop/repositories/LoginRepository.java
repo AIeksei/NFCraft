@@ -11,16 +11,13 @@ import java.util.Optional;
 
 public interface LoginRepository extends JpaRepository<Login, Long> {
 
-//    @Modifying
-//    @Transactional
-//    @Query(value = "insert into login(number,password) values (?1,?2)", nativeQuery = true)
-//    void saveLogin(@Param("number") Long number, @Param("password") String password);
-
-//    @Query(value = "SELECT * FROM Login where (number) = ?1",nativeQuery = true)
-//    Optional<Login> findByNumber(@Param("number") Long number);
 
     @Query(value ="SELECT user.id FROM user WHERE login_id  = ?1", nativeQuery = true)
     Long findByLogin(@Param("login_id") Long login_id);
+
+//    @Query(value ="SELECT user.id " +
+//            "FROM user WHERE login_id  = ?1", nativeQuery = true)
+//    Long findByLogin(@Param("login_id") Long login_id);
 
     @Query(value ="SELECT id FROM Login WHERE username = ?1", nativeQuery = true)
     Long findPasswordByEmail(@Param("email") String email);
@@ -30,7 +27,7 @@ public interface LoginRepository extends JpaRepository<Login, Long> {
             """, nativeQuery = true)
     Optional<Login> findByEmail(String email);
 
-    @Modifying // для внесения изменений в бд
+    @Modifying
     @Transactional
     @Query(value = "insert into user(addres,father_name,first_name,phone, sur_name,login_id) " +
                    "values (?1,?2,?3,?4,?5,?6)", nativeQuery = true)

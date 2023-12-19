@@ -1,8 +1,5 @@
 package com.example.shop.controllers;
 import com.example.shop.models.DTO.PostOrderDTO;
-import com.example.shop.models.DTO.PostUserDTO;
-import com.example.shop.models.Order;
-import com.example.shop.models.User;
 import com.example.shop.repositories.LoginRepository;
 import com.example.shop.repositories.OrderRepository;
 import com.example.shop.services.OrderService;
@@ -10,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:3000")
@@ -24,6 +18,7 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private LoginRepository loginRepository;
+
     @GetMapping("/myorders/{userId}")
     public ResponseEntity<?> userOrders(@PathVariable Long userId) {
         return ResponseEntity.ok( orderRepository.allOrders( loginRepository.findByLogin(userId)));
@@ -36,7 +31,7 @@ public class OrderController {
     public ResponseEntity<String> UserAdd(@RequestBody PostOrderDTO postOrderDTO)
     {
         try {
-            orderService.saveOrder(postOrderDTO.getCartRequest(), loginRepository.findByLogin(postOrderDTO.getUser_id()));
+            orderService.saveOrder(postOrderDTO.getCartRequest(),postOrderDTO.getPrice(), loginRepository.findByLogin(postOrderDTO.getUser_id()));
             return new ResponseEntity<>("Сохранено", HttpStatus.OK);
         }catch (Exception e){
             System.out.println(7);
@@ -44,8 +39,4 @@ public class OrderController {
         }
     }
 }
-//    @GetMapping("/myorders")
-//    public ResponseEntity<?> showPostsForUser(@PathVariable Long id) {
-//        return ResponseEntity.ok( productService.findByIdProducts(id));
-//    }
 

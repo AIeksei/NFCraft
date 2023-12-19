@@ -11,7 +11,9 @@ import com.example.shop.repositories.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,10 +33,16 @@ public class OrderService {
         return null;
     }
 
-    public void saveOrder(List<PostCartDTO> postCartDTO, Long user_id) {
-        orderRepository.saveOrders(LocalDate.now(), 0.0F, user_id);
+    public void saveOrder(List<PostCartDTO> postCartDTO,Float price, Long user_id) {
+        for(int i = 0; i < postCartDTO.size(); i++){
+           if( productRepository.countProducts(postCartDTO.get(i).getId()) < postCartDTO.get(i).getCount()){
+               throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Количество товара превышает доступное количество");
+           };
+        }
+        orderRepository.saveOrders(LocalDate.now(), price, user_id);
         Long orderId = orderRepository.getLastOrderId();
         for (int i = 0; i < postCartDTO.size(); i++) {
+            productRepository.changeCount(productRepository.countProducts(postCartDTO.get(i).getId()) - postCartDTO.get(i).getCount(), postCartDTO.get(i).getId());
             orderRepository.saveBuyProduct(postCartDTO.get(i).getCount(),postCartDTO.get(i).getId(),orderId);
         }
     }

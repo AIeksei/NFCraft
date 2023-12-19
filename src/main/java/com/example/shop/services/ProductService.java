@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,10 @@ public class ProductService {
         return productRepository.cardProduct(newID);
     }
 
+    public void markProductAsDeleted(long productId) {
+        productRepository.updateProductDeletedStatus(productId);
+    }
+
     public List<ProductDto> awgReviewStar(Long newID) {
         return productRepository.awgReviewStar(newID);
     }
@@ -32,19 +37,13 @@ public class ProductService {
     }
 
 
-//    public void deleteProductAndReviews(String productName) {
-//        productRepository.deleteProductAndReviewsByProductName(productName);
-//    }
-//    @Transactional
-//    public void updateProductInfo(Long productId, String info, String name, Float price, Integer quantity, Long categoryId) {
-//        productRepository.updateProductInfo(info, name, price, quantity, categoryId, productId);
-//    }
- //  @Transactional
-  //  public void deleteProductById(Long id) {
-  //    productRepository.deleteProductById(id);
-   // }
     @Transactional
-    public void saveProduct(String info, String name, Float price, Long quant, Long categoryId) {
-        productRepository.saveProduct(info, name, price, quant, categoryId);
+    public void updateProductInfo(Long productId, String info, String name, Float price, Long quant, Long categoryId) {
+        productRepository.updateProductInfo(info, name, price, quant, categoryId, productId);
+    }
+
+    @Transactional
+    public void saveProduct(String info, String name, Float price, Long quant, Long categoryId,Boolean is_deleted) {
+        productRepository.saveProduct(info, name, price, quant, categoryId,is_deleted);
     }
 }

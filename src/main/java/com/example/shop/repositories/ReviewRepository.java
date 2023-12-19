@@ -30,18 +30,57 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
 
     @Query(value = "SELECT \n" +
+            "review.id as reviewid,\n" +
             "review.star as rewiewstar,\n" +
             "review.date AS date,\n" +
             "review.text AS text,\n" +
             "user.first_name AS username,\n" +
+            "user.login_id AS userid,\n" +
             "user.sur_name AS usersur\n" +
             "FROM review\n" +
             "left join user ON review.user_id = user.id", nativeQuery = true)
     List<ProductDto> ReviewAllStar();
 
+    @Query(value = "SELECT \n" +
+            "review.id as reviewid,\n" +
+            "review.star as rewiewstar,\n" +
+            "review.date AS date,\n" +
+            "review.text AS text,\n" +
+            "user.first_name AS username,\n" +
+            "user.login_id AS userid,\n" +
+            "user.sur_name AS usersur\n" +
+            "FROM review\n" +
+            "left join user ON review.user_id = user.id\n"+
+            "where review.star = ?1", nativeQuery = true)
+    List<ProductDto> findReviewsByStar(@Param("star") Integer star);
 
+    @Query(value = "SELECT \n" +
+            "review.id as reviewid,\n" +
+            "review.star as rewiewstar,\n" +
+            "review.date AS date,\n" +
+            "review.text AS text,\n" +
+            "user.first_name AS username,\n" +
+            "user.login_id AS userid,\n" +
+            "user.sur_name AS usersur\n" +
+            "FROM review\n" +
+            "left join user ON review.user_id = user.id\n" +
+            "ORDER BY review.star ASC", nativeQuery = true)
+    List<ProductDto> getReviewsASC();
 
+    @Query(value = "SELECT \n" +
+            "review.id as reviewid,\n" +
+            "review.star as rewiewstar,\n" +
+            "review.date AS date,\n" +
+            "review.text AS text,\n" +
+            "user.first_name AS username,\n" +
+            "user.login_id AS userid,\n" +
+            "user.sur_name AS usersur\n" +
+            "FROM review\n" +
+            "left join user ON review.user_id = user.id\n" +
+            "ORDER BY review.star DESC", nativeQuery = true)
+    List<ProductDto> getReviewsDESC();
 
+    @Transactional
     @Modifying
     @Query("DELETE FROM Review WHERE id = ?1")
     void deleteReviewById(@Param("id") Long id);

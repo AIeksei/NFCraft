@@ -1,5 +1,6 @@
 package com.example.shop.models.DTO;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +12,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class PostProductDTO {
-    private  String info;
-    private  String name;
-    private  Float price;
-    private  Long quant;
-    private  Long category_id;
-    private  String category_name;
-    private Boolean is_deleted;
+public class ProductImageDTO {
+    private Integer count;
+    private String url;
+    private Long product_id;
 }

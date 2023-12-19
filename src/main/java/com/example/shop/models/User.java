@@ -17,7 +17,7 @@ public class User {
     @Column
     private String addres;
     @Column
-    private Long phone;
+    private String phone;
     @OneToOne
     @JoinColumn(name = "login_id")
     private Login login;
@@ -65,11 +65,11 @@ public class User {
         this.addres = addres;
     }
 
-    public Long getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Long phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

@@ -18,7 +18,9 @@ public class SecurityConfig  {
     @Autowired
     private JwtFilter jwtFilter;
 
-    private static final String[] WHITE_LIST_URL = {"/registration", "/login", "/logout", "/categories/{categoryId}","/allreview","/catalog", "/category", "/product/{id}"};
+    private static final String[] WHITE_LIST_URL = {"/registration", "/login", "/logout", "/allreview","/catalog",
+            "/category", "/product/{id}","/review/{id}","/allreview/{star}","/allreview/ASC",
+            "/allreview/DESC","/products/category/{categoryId}","/product/image/{id}","/avgreview/{id}"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

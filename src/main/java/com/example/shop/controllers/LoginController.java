@@ -4,15 +4,12 @@ import com.example.shop.models.DTO.LoginRequest;
 import com.example.shop.models.DTO.PostUserDTO;
 import com.example.shop.models.DTO.RegisterDTO;
 import com.example.shop.models.Login;
-import com.example.shop.models.Role;
 import com.example.shop.repositories.LoginRepository;
 import com.example.shop.services.LoginService;
 import com.example.shop.services.auth.AuthService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,41 +19,34 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
     @Autowired
+    private LoginRepository loginRepository;
+    @Autowired
     private AuthService authService;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    /*@PostMapping("/login")
-    public ResponseEntity<String> LoginAdd(@RequestParam Long number,@RequestParam String password)//@RequestParam Long number,
-                                           // @RequestParam String password)
-    {
-        try {
-            Optional<Login> login = loginRepository.findByNumber(number);
-            System.out.println(login.toString());
-            System.out.println(6);
-            loginService.saveLogin(number, password);
-            return new ResponseEntity<>("Сохранено", HttpStatus.OK);
-        }catch (Exception e){
-            System.out.println(7);
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }
-    }*/
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody LoginRequest authRequest) {
         return authService.login(authRequest);
     }
 
-//    @PostMapping("/registration")
-//    public String postLogin(@RequestParam int number){
-//        Optional<Login> login = loginRepository.findByNumber((long) number);
-//        System.out.println(login.toString() + " for check ");
-//        return "/catalog";
-//    }
     @PostMapping("/registration")
     public AuthResponse register(@RequestBody RegisterDTO registerDTO) {
         Login savedLogin = loginService.saveLogin(Login.from(registerDTO, passwordEncoder));
         return authService.generateToken(savedLogin);
+    }
+
+    @GetMapping("/user/login/{login_id}")
+    public ResponseEntity<Long> findByLogin(@PathVariable("login_id") Long login_id) {
+        System.out.println(login_id);
+        Long userId = loginRepository.findByLogin(login_id);
+        System.out.println(login_id);
+        System.out.println(userId);
+        if (userId != null) {
+            return ResponseEntity.ok(userId);
+        } else {
+            return ResponseEntity.ok(0l);
+        }
     }
 
     @PostMapping("/user")

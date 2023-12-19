@@ -9,6 +9,7 @@ public interface ProductDto{
     String getCategoryName();
     String getproduct_imageurl();
     String getavgRewiewStar();
+    String getreviewid();
     String getproducinfo();
     String gettextRewiew();
     String getproduct_imagecount();
@@ -19,6 +20,9 @@ public interface ProductDto{
     String getreviewurl();
     String getcategoryId();
     String getproductId();
+    String getuserid();
+    String getcount();
+    String geturl();
 }
 
 

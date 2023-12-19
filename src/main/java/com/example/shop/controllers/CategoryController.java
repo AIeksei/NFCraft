@@ -2,6 +2,7 @@ package com.example.shop.controllers;
 
 import com.example.shop.models.DTO.PostProductDTO;
 import com.example.shop.models.DTO.PostReviewDTO;
+import com.example.shop.models.DTO.ProductDto;
 import com.example.shop.services.CategoryService;
 import com.example.shop.services.ProductService;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -25,14 +27,12 @@ public class CategoryController {
 
     @GetMapping("/category")
     public ResponseEntity<?> category(Model model ){
-        System.out.println("as");
         System.out.println(categoryService.allCategory());
-        System.out.println("ss");
         return ResponseEntity.ok( categoryService.allCategory());
 
     }
     @PostMapping("/category/add")
-    public ResponseEntity<String> reviewAdd( @RequestBody PostProductDTO postProductDTO )
+    public ResponseEntity<String> saveCategory( @RequestBody PostProductDTO postProductDTO )
     {
         try {
             categoryRepository.saveCategory(postProductDTO.getCategory_name());
@@ -42,16 +42,15 @@ public class CategoryController {
         }
     }
 
-    @DeleteMapping("/categories/{categoryId}")
-    public void deleteCategoryAndMoveProducts(@PathVariable Long categoryId) {
+    @DeleteMapping("/category/deleted/{categoryId}")
+    public void updateAndDeleteCategory(@PathVariable Long categoryId) {
         System.out.println(categoryId);
         categoryRepository.updateAndDeleteCategory(categoryId);
     }
+    @GetMapping("/products/category/{categoryId}")
+    public ResponseEntity<List<ProductDto>> listProductsByCategory(@PathVariable Long categoryId) {
+        List<ProductDto> products = categoryRepository.listProductsByCategory(categoryId);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 
-//    @PostMapping("/category")
-//    public String categoryAdd(@RequestParam String name, Model model){
-//        Category category = new Category(name);
-//        categoryRepository.save(category);
-//        return "redirect:/category";
-//    }
 }

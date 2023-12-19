@@ -1,5 +1,4 @@
 package com.example.shop.models;
-
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -24,6 +23,8 @@ public class Product {
     private Float price;
     @Column
     private String info;
+    @Column
+    private Boolean isDeleted;
     public Product() {
     }
 
