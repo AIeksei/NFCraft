@@ -5,5 +5,6 @@ public interface BoughtDTO {
     String getQuant();
     String getName();
     String getUrl();
+    String getUser_id();
 
 }

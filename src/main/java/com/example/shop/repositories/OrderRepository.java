@@ -21,11 +21,12 @@ public interface OrderRepository extends CrudRepository<Order, Long>{
                 "        WHERE user_id = ?1", nativeQuery = true)
         Iterable <OrderDto> allOrders(@Param("userID") Long userID);
 
-        @Query(value = " SELECT p.id as product_id, p.name, b.quant, " +
+        @Query(value = " SELECT p.id as product_id, p.name, b.quant, u.login_id as user_id," +
                 "MAX(CASE WHEN i.count = 1 THEN i.url END) AS url\n" +
                 "        FROM orders o\n" +
                 "        LEFT JOIN buy_product b ON o.id = b.product_order_id\n" +
                 "        LEFT JOIN products p ON p.id = b.product_id\n" +
+                "        LEFT JOIN user u ON o.user_id = u.id\n" +
                 "        LEFT JOIN product_image i ON i.product_id = p.id\n" +
                 "        WHERE o.id = ?1"+
                 "        GROUP BY product_id,p.name,b.quant" , nativeQuery = true)
